@@ -1,0 +1,24 @@
+{
+  "throttle": 0,
+  "pitch": 0,
+  "roll": 0,
+  "yaw": 0,
+  "altitude": 0,
+  "airspeed": 0,
+  "heading": 0,
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "velocity": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "acceleration": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  }
+}

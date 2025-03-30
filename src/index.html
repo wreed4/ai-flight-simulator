@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Simulator</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            display: block;
+        }
+        .hud {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            color: lime;
+            font-family: monospace;
+            padding: 10px;
+            pointer-events: none;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            z-index: 100;
+        }
+        .debug {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            max-width: 400px;
+            max-height: 200px;
+            overflow: auto;
+            border-radius: 5px;
+            z-index: 100;
+        }
+
+        /* Controls Dialog Styles */
+        .controls-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .controls-dialog {
+            background-color: #222;
+            color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .controls-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+        }
+
+        .controls-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .close-button {
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .controls-list {
+            margin-bottom: 20px;
+        }
+
+        .controls-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .controls-table th, .controls-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+
+        .controls-table th {
+            background-color: #333;
+        }
+
+        .start-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .start-button:hover {
+            background-color: #388E3C;
+        }
+
+        .key-badge {
+            display: inline-block;
+            background-color: #333;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="hud" class="hud">Loading...</div>
+    <div id="debug" class="debug">Debug info will appear here</div>
+
+    <!-- Controls Dialog -->
+    <div id="controls-overlay" class="controls-overlay">
+        <div class="controls-dialog">
+            <div class="controls-header">
+                <h2 class="controls-title">Flight Simulator Controls</h2>
+                <button class="close-button" id="close-controls">✕</button>
+            </div>
+            <div class="controls-list">
+                <table class="controls-table">
+                    <thead>
+                        <tr>
+                            <th>Control</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Controls will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <button id="start-simulator" class="start-button">Start Flying</button>
+        </div>
+    </div>
+
+    <script>
+        // Basic console logger for debugging
+        const debugElement = document.getElementById('debug');
+        const originalConsoleLog = console.log;
+        const originalConsoleError = console.error;
+
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            if (debugElement) {
+                debugElement.innerHTML += args.join(' ') + '<br>';
+                debugElement.scrollTop = debugElement.scrollHeight;
+            }
+        };
+
+        console.error = function(...args) {
+            originalConsoleError.apply(console, args);
+            if (debugElement) {
+                debugElement.innerHTML += '<span style="color:red">ERROR: ' + args.join(' ') + '</span><br>';
+                debugElement.scrollTop = debugElement.scrollHeight;
+            }
+        };
+
+        console.log("Page loaded, waiting for DOMContentLoaded event");
+    </script>
+</body>
+</html>
