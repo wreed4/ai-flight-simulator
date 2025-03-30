@@ -214,22 +214,22 @@ export class Aircraft {
 
         // Process pitch control (W/S keys and Up/Down arrows)
         if (inputManager.isKeyPressed('KeyW') || inputManager.isKeyPressed('ArrowUp')) {
-            this.pitchInput -= 1; // Nose up is negative pitch in this coordinate system
+            this.pitchInput += 1; // Nose up is negative pitch in this coordinate system
         }
 
         if (inputManager.isKeyPressed('KeyS') || inputManager.isKeyPressed('ArrowDown')) {
-            this.pitchInput += 1; // Nose down is positive pitch
+            this.pitchInput -= 1; // Nose down is positive pitch
         }
 
         // Process roll control (A/D keys)
         if (inputManager.isKeyPressed('KeyA')) {
-            this.rollInput += 1; // Roll left
-            this.yawInput -= 0.5; // Coordinated turn
+            this.rollInput -= 1; // Roll left
+            this.yawInput += 0.5; // Coordinated turn
         }
 
         if (inputManager.isKeyPressed('KeyD')) {
-            this.rollInput -= 1; // Roll right
-            this.yawInput += 0.5; // Coordinated turn
+            this.rollInput += 1; // Roll right
+            this.yawInput -= 0.5; // Coordinated turn
         }
 
         // Process yaw control (Left/Right arrows)

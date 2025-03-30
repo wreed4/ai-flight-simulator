@@ -440,17 +440,64 @@ export class Engine {
             this.aircraft.mesh.visible = false;
         }
 
-        // Show game over screen after a delay
+        
+        // Set camera to a fixed position with a wider view of the crash
+        this.explosionCameraTarget = new THREE.Vector3().copy(this.aircraft.position);
+
+        // Save current camera position for smooth transition
+        this.preExplosionCameraPos = new THREE.Vector3().copy(this.renderer.camera.position);
+
+        // Calculate a position that's higher and further back
+        const distanceMultiplier = 2.5;  // Zoom out factor
+        const idealCameraPos = new THREE.Vector3();
+        idealCameraPos.copy(this.aircraft.position);
+
+        // Move up and back
+        idealCameraPos.y += this.cameraHeight * 3;
+        idealCameraPos.z -= this.cameraDistance * distanceMultiplier;
+        idealCameraPos.x -= this.cameraDistance * 0.5;
+
+        this.explosionCameraPos = idealCameraPos;
+
+        // Transition will be handled in updateCameraPosition
+        this.cameraTransitionStart = Date.now();
+        this.cameraTransitionDuration = 1500;  // 1.5 seconds to zoom out
+
+        // Show game over screen// Show game over screen after a delay
         setTimeout(() => {
             this.showGameOverScreen();
         }, 2000);
     }
 
     updateCameraPosition(deltaTime) {
+        
+        // For explosion, use a special camera position
+        if (this.gameOver && this.explosionCameraPos) {
+            // Calculate transition progress
+            const elapsed = Date.now() - this.cameraTransitionStart;
+            const progress = Math.min(1, elapsed / this.cameraTransitionDuration);
+
+            // Smooth easing function
+            const easeOutQuad = (t) => t * (2 - t);
+            const easedProgress = easeOutQuad(progress);
+
+            // Interpolate between pre-explosion position and explosion view position
+            const cameraPos = new THREE.Vector3();
+            cameraPos.lerpVectors(this.preExplosionCameraPos, this.explosionCameraPos, easedProgress);
+
+            // Set camera position
+            this.renderer.camera.position.copy(cameraPos);
+
+            // Look at the explosion
+            this.renderer.camera.lookAt(this.explosionCameraTarget);
+
+            return;
+        }
+
         if (!this.aircraft || !this.renderer || !this.renderer.camera) return;
 
         // Direction the aircraft is facing (forward vector)
-        const aircraftDirection = new THREE.Vector3(0, 0, -1);
+        const aircraftDirection = new THREE.Vector3(0, 0, 1);
         aircraftDirection.applyEuler(this.aircraft.rotation);
         aircraftDirection.normalize();
 

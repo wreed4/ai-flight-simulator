@@ -1,7 +1,3 @@
-#!/bin/bash
-
-# Modify Engine.js to make camera zoom out during crash
-cat > update-crash-camera.js << 'EOL'
 const fs = require('fs');
 
 // Read the Engine.js file
@@ -72,9 +68,3 @@ const updatedCameraMethod = updatedHandleCrash.replace(updateCameraRegex, "$1" +
 // Write the updated file
 fs.writeFileSync('src/core/Engine.js', updatedCameraMethod, 'utf8');
 console.log('Updated Engine.js with explosion camera behavior');
-EOL
-
-# Run the update script
-node update-crash-camera.js
-
-echo "Camera now zooms out to view the explosion when crashing."
