@@ -1,6 +1,5 @@
-[!NOTE]
-
-Hey! 👋 Human here!  This is the only human-generated content in this entire repo. Everything else is AI-generated, mostly with Zed AI using Claude Sonnet 3.5 and 3.7.
+> [!NOTE]
+> Hey! 👋 Human here!  This is the only human-generated content in this entire repo. Everything else is AI-generated, mostly with Zed AI using Claude Sonnet 3.5 and 3.7.
 
 
 # AI-Generated Flight Simulator
